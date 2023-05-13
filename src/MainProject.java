@@ -20,21 +20,23 @@ public class MainProject {
 
 		creazioneElementiCatalogo();
 		stampaListaTotale();
-		String scritto="";
+/*String scritto = "";
 		try {
 			scritto = FileUtils.readFileToString(file, "UTF-8");
 		} catch (IOException e) {
-			System.out.println("ERRORE"+e);
+			System.out.println("ERRORE" + e);
 			scritturaSuFile();
 		}
 		String risultato[];
 		String risultato2[];
 		risultato = scritto.split("Libro");
 		risultato2 = scritto.split("Rivista");
-		for(int i=1;i<risultato.length;i++){
+		for (int i = 1; i < risultato.length; i++) {
 			System.out.println(risultato[i]);
 		}
-		System.out.println("Ecco le riviste"+risultato2[1]);
+		System.out.println("Ecco le riviste" + risultato2[1]); */
+		
+
 		boolean uscita = false;
 		do {
 			try {
@@ -99,11 +101,104 @@ public class MainProject {
 	}
 
 	public static void creazioneElementiCatalogo() {
-		listaCompletaCatalogo.add(new Libro(1, "la Bella e la bestia", "2032", 190, "Hans", "Fantasy"));
-		listaCompletaCatalogo.add(new Libro(2, "Hansel e Gretel", "1999", 120, "Mario Rossi", "Giallo"));
-		listaCompletaCatalogo.add(new Libro(3, "Rosso malpelo", "1980", 190, "Giovanni Verga", "Verista"));
-		listaCompletaCatalogo.add(new Rivista(4, "Verissimo Magazine", "1980", 190, Periodicita.Settimanale));
+		boolean uscitaCreazione = false;
+		do {
+			System.out.println(
+					"Cosa vuoi creare?\n ('libro' -> per creare un libro - 'rivista' -> per creare una rivista 'q' -> per uscire) ");
+			String scelta = sc.nextLine();
+			if (scelta.equals("libro")) {
+				System.out.println("Inserisci il titolo del libro");
+				String titolo = sc.nextLine();
+				boolean numeroCorretto = false;
+				String anno;
+				int pagine = 0;
+				do {
+					System.out.println("Inserisci l'anno di pubblicazione");
+					anno = sc.nextLine();
+					if (anno.length() != 4) {
+						System.out.println("Inserisci un anno valido! ");
+					} else if (anno.length() == 4) {
+						numeroCorretto = true;
+					}
+				} while (!numeroCorretto);
+				boolean numeroGiusto = false;
+				do {
+					try {
+						System.out.println("Inserisci il numero di pagine");
+						pagine = Integer.parseInt(sc.nextLine());
+						if (pagine > 0) {
+							numeroGiusto = true;
+						}
+					} catch (NumberFormatException e) {
+						System.out.println("Inserisci un numero valido! ");
+					}
+				} while (!numeroGiusto);
+				System.out.println("Inserisci il nome dell'autore");
+				String nomeAutore = sc.nextLine();
+				System.out.println("Inserisci il nome del genere");
+				String nomeGenere = sc.nextLine();
+				listaCompletaCatalogo.add(new Libro(titolo, anno, pagine, nomeAutore, nomeGenere));
 
+			} else if (scelta.equals("rivista")) {
+				System.out.println("Inserisci il titolo della rivista");
+				String titoloRivista = sc.nextLine();
+				boolean numeroCorrettoRivista = false;
+				String annoRivista;
+				int pagineRivista = 0;
+				do {
+					System.out.println("Inserisci l'anno di pubblicazione");
+					annoRivista = sc.nextLine();
+					if (annoRivista.length() != 4) {
+						System.out.println("Inserisci un anno valido! ");
+					} else if (annoRivista.length() == 4) {
+						numeroCorrettoRivista = true;
+					}
+				} while (!numeroCorrettoRivista);
+				boolean numeroGiustoRivista = false;
+				do {
+					try {
+						System.out.println("Inserisci il numero di pagine");
+						pagineRivista = Integer.parseInt(sc.nextLine());
+						if (pagineRivista > 0) {
+							numeroGiustoRivista = true;
+						}
+					} catch (NumberFormatException e) {
+						System.out.println("Inserisci un numero valido! ");
+					}
+				} while (!numeroGiustoRivista);
+				boolean periodicitaValida = false;
+				do {
+					System.out.println(
+							"Inserisci la periodicità della rivista ('settimanale' - 'mensile' - 'semestrale')");
+					String periodicitaRivista = sc.nextLine();
+					switch (periodicitaRivista) {
+						case "settimanale":
+							Periodicita settimanale = Periodicita.Settimanale;
+							periodicitaValida = true;
+							listaCompletaCatalogo
+									.add(new Rivista(titoloRivista, annoRivista, pagineRivista, settimanale));
+							break;
+						case "mensile":
+							Periodicita mensile = Periodicita.Mensile;
+							periodicitaValida = true;
+							listaCompletaCatalogo.add(new Rivista(titoloRivista, annoRivista, pagineRivista, mensile));
+							break;
+						case "semestrale":
+							Periodicita semestrale = Periodicita.Semestrale;
+							periodicitaValida = true;
+							listaCompletaCatalogo
+									.add(new Rivista(titoloRivista, annoRivista, pagineRivista, semestrale));
+							break;
+						default:
+							System.out.println("Inserisci una periodicità valida! ");
+							break;
+					}
+				} while (!periodicitaValida);
+			} else if (scelta.equals("q")) {
+				System.out.println("Grazie per aver creato dei nuovi prodotti nel catalogo! ");
+				uscitaCreazione = true;
+			}
+		} while (!uscitaCreazione);
 	}
 
 	public static List<Catalogo> eliminazioneConCodice(long codice) {
