@@ -2,8 +2,8 @@
 public class Rivista extends Catalogo {
 	private Periodicita periodo;
 
-	public Rivista(String titolo, String annoPubblicazione, int numeroPagine, Periodicita periodo) {
-		super(titolo, annoPubblicazione, numeroPagine);
+	public Rivista(long CodiceISBN, String titolo, String annoPubblicazione, int numeroPagine, Periodicita periodo) {
+		super(CodiceISBN, titolo, annoPubblicazione, numeroPagine);
 		this.periodo = periodo;
 	}
 

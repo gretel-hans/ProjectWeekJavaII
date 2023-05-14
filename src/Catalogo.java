@@ -1,15 +1,15 @@
 
 public abstract class Catalogo {
-	private static long CodiceISBN=0;
+	private  long CodiceISBN=0;
     private String Titolo;
     private String AnnoPubblicazione;
     private int NumeroPagine;
     
-	public Catalogo(String titolo, String annoPubblicazione, int numeroPagine) {
+	public Catalogo(long CodiceISBN,String titolo, String annoPubblicazione, int numeroPagine) {
+		this.CodiceISBN=CodiceISBN;
 		this.Titolo = titolo;
 		this.AnnoPubblicazione = annoPubblicazione;
 		this.NumeroPagine = numeroPagine;
-		this.CodiceISBN=this.getCodiceISBN()+1;
 	}
 
 	public long getCodiceISBN() {
