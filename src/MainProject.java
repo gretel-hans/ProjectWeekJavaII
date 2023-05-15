@@ -40,6 +40,7 @@ public class MainProject {
 		stampaListaTotale();
 		boolean uscita = false;
 		do {
+			stampaListaTotale();
 			try {
 				System.out.println("Inserisci il codice dell'elemento da eliminare ('0'-> per uscire)");
 				long codice = Integer.parseInt(sc.nextLine());
@@ -47,9 +48,7 @@ public class MainProject {
 					System.out.println("Grazie per aver usato il sistema ad eliminazione con codice!");
 					uscita = true;
 				} else {
-					if (eliminazioneConCodice(codice).size() == 0) {
-						System.out.println("Elemento non trovato");
-					}
+					eliminazioneConCodice(codice);
 				}
 			} catch (NumberFormatException e) {
 				log.error("ERRORE inserire un numero" + e);
@@ -302,6 +301,36 @@ public class MainProject {
 				// listaModificataUno.get(i).getCodiceISBN());
 				System.out.println("È stato eliminato il seguente elemento dal catalogo: " + listaModificataUno.get(i));
 				listaModificataUno.remove(listaModificataUno.get(i));
+				listaCompletaCatalogo=listaModificataUno;
+				for(int e=0;e<listaModificataUno.size();e++){
+					try {
+						 if (listaModificataUno.get(e) instanceof Libro) {
+						 Libro l = ((Libro) listaModificataUno.get(e));
+						 String stringaLibro = ("#"+"Libro" + l.getCodiceISBN() + "@" + l.getTitolo()
+						 + "@"
+						 + l.getAnnoPubblicazione()
+						 + "@" + l.getNumeroPagine() + "@" + l.getAutore() + "@" + l.getGenere());
+						 if(e==0){
+							 FileUtils.writeStringToFile(file, stringaLibro, "UTF-8", false);
+						 }else if(e>0){
+							FileUtils.writeStringToFile(file, stringaLibro, "UTF-8", true);
+						 }
+						 } else if (listaModificataUno.get(e) instanceof Rivista) {
+						 Rivista r = ((Rivista) listaModificataUno.get(e));
+						 String stringaRivista = ("#"+"Rivista" + r.getCodiceISBN() + "&" +
+						 r.getTitolo() + "&"
+						 + r.getAnnoPubblicazione() + "&" + r.getNumeroPagine() + "&" +
+						 r.getPeriodo());
+						 if(e==0){
+							FileUtils.writeStringToFile(file, stringaRivista, "UTF-8", false);
+						}else if(e>0){
+							FileUtils.writeStringToFile(file, stringaRivista, "UTF-8", true);
+						}
+						 }
+						 } catch (IOException h) {
+						 h.printStackTrace();
+						 }
+				}
 			}
 		}
 		if (listaModificataUno.size() == listaCompletaCatalogo.size()) {
