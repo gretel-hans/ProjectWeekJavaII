@@ -295,8 +295,10 @@ public class MainProject {
 	public static List<Catalogo> eliminazioneConCodice(long codice) throws IOException {
 		List<Catalogo> listaModificataUno = new ArrayList<Catalogo>();
 		listaModificataUno.addAll(listaCompletaCatalogo);
+		boolean trovato=false;
 		for (int i = 0; i < listaModificataUno.size(); i++) {
 			if (listaModificataUno.get(i).getCodiceISBN() == codice) {
+				trovato=true;
 				// System.out.println("Ecco il ISBN: " +
 				// listaModificataUno.get(i).getCodiceISBN());
 				System.out.println("È stato eliminato il seguente elemento dal catalogo: " + listaModificataUno.get(i));
@@ -333,7 +335,7 @@ public class MainProject {
 				}
 			}
 		}
-		if (listaModificataUno.size() == listaCompletaCatalogo.size()) {
+		if (!trovato) {
 			System.out.println("Elemento non trovato");
 		} else {
 			listaModificataUno.forEach(e -> System.out.println(e));
