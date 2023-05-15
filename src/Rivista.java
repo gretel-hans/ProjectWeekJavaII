@@ -17,6 +17,6 @@ public class Rivista extends Catalogo {
 
 	@Override
 	public String toString() {
-		return "Riviste [periodo=" + periodo + ", CodiceISBN=" + super.getCodiceISBN() + ", Titolo=" + super.getTitolo() + ", AnnoPubblicazione=" + super.getAnnoPubblicazione() + ", NumeroPagine=" + super.getNumeroPagine() + "]";
+		return "Rivista [periodo=" + periodo + ", CodiceISBN=" + super.getCodiceISBN() + ", Titolo=" + super.getTitolo() + ", AnnoPubblicazione=" + super.getAnnoPubblicazione() + ", NumeroPagine=" + super.getNumeroPagine() + "]";
 	}
 }
