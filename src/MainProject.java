@@ -21,23 +21,22 @@ public class MainProject {
 	private static long codiceISBNRivista;
 	private static boolean codiceISBNCorretto;
 	private static boolean codiceISBNRivistaCorretto;
-	private static boolean erroreFile=false;
+	private static boolean erroreFile = false;
 
 	public static void main(String[] args) {
-		
-try {
-	letturaSuFile();
-} catch (IOException e) {
-	log.error("ERRORE Crea nuovi dati per salvarli prima di poterli leggere dall'archivio ");
-	erroreFile=true;
-}
+
+		try {
+			letturaSuFile();
+		} catch (IOException e) {
+			log.error("ERRORE Crea nuovi dati per salvarli prima di poterli leggere dall'archivio ");
+			erroreFile = true;
+		}
 		try {
 			creazioneElementiCatalogo();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 		stampaListaTotale();
 		boolean uscita = false;
 		do {
@@ -59,12 +58,10 @@ try {
 			}
 		} while (!uscita);
 
-		
-
 		boolean uscita2 = false;
 		do {
 			try {
-				
+
 				stampaListaTotale();
 				System.out.println("\nInserisci il codice dell'elemento da cercare ('0'-> per uscire)");
 				long codiceISBN = Integer.parseInt(sc.nextLine());
@@ -80,12 +77,10 @@ try {
 				log.error("ERRORE" + e);
 			}
 		} while (!uscita2);
-		
-		
 
 		boolean uscita3 = false;
 		do {
-			
+
 			stampaListaTotale();
 			System.out.println("\nInserisci l'anno degli elementi da cercare ('q'-> per uscire)");
 			String ricercaAnno = sc.nextLine();
@@ -101,12 +96,10 @@ try {
 			}
 
 		} while (!uscita3);
-		
-		
 
 		boolean uscita4 = false;
 		do {
-			
+
 			stampaListaTotale();
 			System.out.println("\nInserisci il nome dell'autore degli elementi da cercare ('q'-> per uscire)");
 			String ricercaNomeAutore = sc.nextLine();
@@ -114,7 +107,7 @@ try {
 				System.out.println("Grazie per aver usato il sistema di ricerca per anno!");
 				uscita4 = true;
 			} else {
-					ricercaConAutore(ricercaNomeAutore);
+				ricercaConAutore(ricercaNomeAutore);
 			}
 
 		} while (!uscita4);
@@ -124,10 +117,12 @@ try {
 	public static void creazioneElementiCatalogo() throws IOException {
 		boolean uscitaCreazione = false;
 		do {
-			if(erroreFile){
-				System.out.println("Cosa vuoi creare?\n'libro' -> per creare un libro - 'rivista' -> per creare una rivista 'q' -> per uscire ");
-			}else{
-				System.out.println("Vuoi creare nuovi elementi da aggiungere al catalogo o visualizzare i già esistenti?\n'libro' -> per creare un libro - 'rivista' -> per creare una rivista 'q' -> per uscire ");
+			if (erroreFile) {
+				System.out.println(
+						"Cosa vuoi creare?\n'libro' -> per creare un libro - 'rivista' -> per creare una rivista 'q' -> per uscire ");
+			} else {
+				System.out.println(
+						"Vuoi creare nuovi elementi da aggiungere al catalogo o visualizzare i già esistenti?\n'libro' -> per creare un libro - 'rivista' -> per creare una rivista 'q' -> per uscire ");
 			}
 			String scelta = sc.nextLine();
 			if (scelta.equals("libro")) {
@@ -189,12 +184,12 @@ try {
 				String nomeAutore = sc.nextLine();
 				System.out.println("Inserisci il nome del genere");
 				String nomeGenere = sc.nextLine();
-				Libro l=new Libro(codiceISBN, titolo, anno, pagine, nomeAutore, nomeGenere);
+				Libro l = new Libro(codiceISBN, titolo, anno, pagine, nomeAutore, nomeGenere);
 				listaCompletaCatalogo.add(l);
-				String stringaLibro = ("#"+"Libro" + l.getCodiceISBN() + "@" + l.getTitolo() + "@"
-							+ l.getAnnoPubblicazione()
-							+ "@" + l.getNumeroPagine() + "@" + l.getAutore() + "@" + l.getGenere());
-					FileUtils.writeStringToFile(file, stringaLibro, "UTF-8", true);
+				String stringaLibro = ("#" + "Libro" + l.getCodiceISBN() + "@" + l.getTitolo() + "@"
+						+ l.getAnnoPubblicazione()
+						+ "@" + l.getNumeroPagine() + "@" + l.getAutore() + "@" + l.getGenere());
+				FileUtils.writeStringToFile(file, stringaLibro, "UTF-8", true);
 
 			} else if (scelta.equals("rivista")) {
 				codiceISBNRivistaCorretto = false;
@@ -259,33 +254,32 @@ try {
 						case "settimanale":
 							Periodicita settimanale = Periodicita.Settimanale;
 							periodicitaValida = true;
-							Rivista r =new Rivista(codiceISBNRivista, titoloRivista, annoRivista, pagineRivista,
-							settimanale) ;
-							listaCompletaCatalogo.add(r);		
-					String stringaRivista = ("#"+"Rivista" + r.getCodiceISBN() + "&" + r.getTitolo() + "&"
-							+ r.getAnnoPubblicazione() + "&" + r.getNumeroPagine() + "&" + r.getPeriodo());
-					FileUtils.writeStringToFile(file, stringaRivista, "UTF-8", true);
-							
+							Rivista r = new Rivista(codiceISBNRivista, titoloRivista, annoRivista, pagineRivista,
+									settimanale);
+							listaCompletaCatalogo.add(r);
+							String stringaRivista = ("#" + "Rivista" + r.getCodiceISBN() + "&" + r.getTitolo() + "&"
+									+ r.getAnnoPubblicazione() + "&" + r.getNumeroPagine() + "&" + r.getPeriodo());
+							FileUtils.writeStringToFile(file, stringaRivista, "UTF-8", true);
 							break;
 						case "mensile":
 							Periodicita mensile = Periodicita.Mensile;
 							periodicitaValida = true;
-							Rivista rm=new Rivista(codiceISBNRivista, titoloRivista, annoRivista, pagineRivista, mensile);		
+							Rivista rm = new Rivista(codiceISBNRivista, titoloRivista, annoRivista, pagineRivista,
+									mensile);
 							listaCompletaCatalogo.add(rm);
-							String stringaRivistaM = ("#"+"Rivista" + rm.getCodiceISBN() + "&" + rm.getTitolo() + "&"
-							+ rm.getAnnoPubblicazione() + "&" + rm.getNumeroPagine() + "&" + rm.getPeriodo());
-					FileUtils.writeStringToFile(file, stringaRivistaM, "UTF-8", true);
-			
+							String stringaRivistaM = ("#" + "Rivista" + rm.getCodiceISBN() + "&" + rm.getTitolo() + "&"
+									+ rm.getAnnoPubblicazione() + "&" + rm.getNumeroPagine() + "&" + rm.getPeriodo());
+							FileUtils.writeStringToFile(file, stringaRivistaM, "UTF-8", true);
 							break;
 						case "semestrale":
 							Periodicita semestrale = Periodicita.Semestrale;
 							periodicitaValida = true;
-							Rivista rs=new Rivista(codiceISBNRivista, titoloRivista, annoRivista, pagineRivista, semestrale);
+							Rivista rs = new Rivista(codiceISBNRivista, titoloRivista, annoRivista, pagineRivista,
+									semestrale);
 							listaCompletaCatalogo.add(rs);
-							String stringaRivistaS = ("#"+"Rivista" + rs.getCodiceISBN() + "&" + rs.getTitolo() + "&"
-							+ rs.getAnnoPubblicazione() + "&" + rs.getNumeroPagine() + "&" + rs.getPeriodo());
-					FileUtils.writeStringToFile(file, stringaRivistaS, "UTF-8", true);
-							
+							String stringaRivistaS = ("#" + "Rivista" + rs.getCodiceISBN() + "&" + rs.getTitolo() + "&"
+									+ rs.getAnnoPubblicazione() + "&" + rs.getNumeroPagine() + "&" + rs.getPeriodo());
+							FileUtils.writeStringToFile(file, stringaRivistaS, "UTF-8", true);
 							break;
 						default:
 							System.out.println("Inserisci una periodicità valida! ");
@@ -293,7 +287,7 @@ try {
 					}
 				} while (!periodicitaValida);
 			} else if (scelta.equals("q")) {
-				System.out.println("Grazie per aver creato dei nuovi prodotti nel catalogo! ");
+				System.out.println("Grazie per il sistema di creazione di nuovi prodotti nel catalogo! ");
 				uscitaCreazione = true;
 			}
 		} while (!uscitaCreazione);
@@ -304,14 +298,15 @@ try {
 		listaModificataUno.addAll(listaCompletaCatalogo);
 		for (int i = 0; i < listaModificataUno.size(); i++) {
 			if (listaModificataUno.get(i).getCodiceISBN() == codice) {
-				//System.out.println("Ecco il ISBN: " + listaModificataUno.get(i).getCodiceISBN());
+				// System.out.println("Ecco il ISBN: " +
+				// listaModificataUno.get(i).getCodiceISBN());
 				System.out.println("È stato eliminato il seguente elemento dal catalogo: " + listaModificataUno.get(i));
 				listaModificataUno.remove(listaModificataUno.get(i));
 			}
 		}
 		if (listaModificataUno.size() == listaCompletaCatalogo.size()) {
 			System.out.println("Elemento non trovato");
-		}else{
+		} else {
 			listaModificataUno.forEach(e -> System.out.println(e));
 		}
 
@@ -331,7 +326,7 @@ try {
 	public static void stampaListaTotale() {
 		System.out.println("\nEcco la lista del Catalogo:");
 		listaCompletaCatalogo.forEach(e -> System.out.println(e));
-		//System.out.println("grandezza "+listaCompletaCatalogo.size());
+		// System.out.println("grandezza "+listaCompletaCatalogo.size());
 	}
 
 	public static void ricercaConAnno(String s) {
@@ -345,16 +340,16 @@ try {
 			System.out.println("Elemento non trovato");
 		} else {
 			System.out.println("Ecco la lista degli elementi del catalogo scritti nel " + s);
-			listaModificatoTre.forEach(e->System.out.println(e));
+			listaModificatoTre.forEach(e -> System.out.println(e));
 		}
 	}
 
-	public static void ricercaConAutore(String c){
+	public static void ricercaConAutore(String c) {
 		List<Libro> listaModificatoQuattro = new ArrayList<Libro>();
 		listaCompletaCatalogo.forEach(e -> {
 			if (e instanceof Libro) {
-				//listaModificatoQuattro.add
-				if(((Libro)(e)).getAutore().equals(c)){
+				// listaModificatoQuattro.add
+				if (((Libro) (e)).getAutore().equals(c)) {
 					listaModificatoQuattro.add((Libro) e);
 				}
 			}
@@ -364,68 +359,77 @@ try {
 		} else {
 			System.out
 					.println("Ecco la lista dei libri del catalogo scritti da " + c + ":");
-					listaModificatoQuattro.forEach(e->System.out.println(e));
+			listaModificatoQuattro.forEach(e -> System.out.println(e));
 		}
 	}
-/* 
-	public static void scritturaSuFile() throws IOException {
-		
-		stampaListaTotale();
-		listaCompletaCatalogo.forEach(e -> {
-			try {
-				if (e instanceof Libro) {
-					Libro l = ((Libro) e);
-					String stringaLibro = ("#"+"Libro" + l.getCodiceISBN() + "@" + l.getTitolo() + "@"
-							+ l.getAnnoPubblicazione()
-							+ "@" + l.getNumeroPagine() + "@" + l.getAutore() + "@" + l.getGenere());
-					FileUtils.writeStringToFile(file, stringaLibro, "UTF-8", true);
-				} else if (e instanceof Rivista) {
-					Rivista r = ((Rivista) e);
-					String stringaRivista = ("#"+"Rivista" + r.getCodiceISBN() + "&" + r.getTitolo() + "&"
-							+ r.getAnnoPubblicazione() + "&" + r.getNumeroPagine() + "&" + r.getPeriodo());
-					FileUtils.writeStringToFile(file, stringaRivista, "UTF-8", true);
-				}
-			} catch (IOException h) {
-				h.printStackTrace();
-			}
-		});
-		letturaSuFile();
-	}
-*/
+
+	/*
+	 * public static void scritturaSuFile() throws IOException {
+	 * 
+	 * stampaListaTotale();
+	 * listaCompletaCatalogo.forEach(e -> {
+	 * try {
+	 * if (e instanceof Libro) {
+	 * Libro l = ((Libro) e);
+	 * String stringaLibro = ("#"+"Libro" + l.getCodiceISBN() + "@" + l.getTitolo()
+	 * + "@"
+	 * + l.getAnnoPubblicazione()
+	 * + "@" + l.getNumeroPagine() + "@" + l.getAutore() + "@" + l.getGenere());
+	 * FileUtils.writeStringToFile(file, stringaLibro, "UTF-8", true);
+	 * } else if (e instanceof Rivista) {
+	 * Rivista r = ((Rivista) e);
+	 * String stringaRivista = ("#"+"Rivista" + r.getCodiceISBN() + "&" +
+	 * r.getTitolo() + "&"
+	 * + r.getAnnoPubblicazione() + "&" + r.getNumeroPagine() + "&" +
+	 * r.getPeriodo());
+	 * FileUtils.writeStringToFile(file, stringaRivista, "UTF-8", true);
+	 * }
+	 * } catch (IOException h) {
+	 * h.printStackTrace();
+	 * }
+	 * });
+	 * letturaSuFile();
+	 * }
+	 */
 	public static void letturaSuFile() throws IOException {
 		String scritto = FileUtils.readFileToString(file, "UTF-8");
-		
+
 		String[] risultatoCatalogo = scritto.split("#");
 		for (int i = 1; i < risultatoCatalogo.length; i++) {
-			if(risultatoCatalogo[i].startsWith("Libro")){
-				String[] libro=risultatoCatalogo[i].split("Libro");
-			//	System.out.println("Risultato libro:" +libro[1]);
-				String []datiLibro=libro[1].split("@");
-				//System.out.println("CodiceIsbn "+datiLibro[0] + "\nTitolo " + datiLibro[1] + "\nAnnoPubblicazione "+datiLibro[2] +"\nNumeroPagine "+datiLibro[3]+"\nAutore "+datiLibro[4]+"\nGenere: "+datiLibro[5]);
-				listaCompletaCatalogo.add(new Libro(Long.parseLong(datiLibro[0]), datiLibro[1], datiLibro[2], Integer.parseInt(datiLibro[3]), datiLibro[4], datiLibro[5]));
-			}else if(risultatoCatalogo[i].startsWith("Rivista")){
-				String[] rivista=risultatoCatalogo[i].split("Rivista");
-				//System.out.println("Risultato rivista:" +rivista[1]);
-				String []datiRivista=rivista[1].split("&");
-				//System.out.println("CodiceIsbn "+datiRivista[0] + "\nTitolo " + datiRivista[1] );
-				Periodicita periodo=Periodicita.Mensile;
-				switch(datiRivista[4]){
-					case"Mensile":
-					periodo=Periodicita.Mensile;
-					break;
-					case"Settimanale":
-					periodo=Periodicita.Settimanale;
-					break;
-					case"Semestrale":
-					periodo=Periodicita.Semestrale;
-					break;
+			if (risultatoCatalogo[i].startsWith("Libro")) {
+				String[] libro = risultatoCatalogo[i].split("Libro");
+				// System.out.println("Risultato libro:" +libro[1]);
+				String[] datiLibro = libro[1].split("@");
+				// System.out.println("CodiceIsbn "+datiLibro[0] + "\nTitolo " + datiLibro[1] +
+				// "\nAnnoPubblicazione "+datiLibro[2] +"\nNumeroPagine "+datiLibro[3]+"\nAutore
+				// "+datiLibro[4]+"\nGenere: "+datiLibro[5]);
+				listaCompletaCatalogo.add(new Libro(Long.parseLong(datiLibro[0]), datiLibro[1], datiLibro[2],
+						Integer.parseInt(datiLibro[3]), datiLibro[4], datiLibro[5]));
+			} else if (risultatoCatalogo[i].startsWith("Rivista")) {
+				String[] rivista = risultatoCatalogo[i].split("Rivista");
+				// System.out.println("Risultato rivista:" +rivista[1]);
+				String[] datiRivista = rivista[1].split("&");
+				// System.out.println("CodiceIsbn "+datiRivista[0] + "\nTitolo " +
+				// datiRivista[1] );
+				Periodicita periodo = Periodicita.Mensile;
+				switch (datiRivista[4]) {
+					case "Mensile":
+						periodo = Periodicita.Mensile;
+						break;
+					case "Settimanale":
+						periodo = Periodicita.Settimanale;
+						break;
+					case "Semestrale":
+						periodo = Periodicita.Semestrale;
+						break;
 					default:
-					break;
+						break;
 				}
-				listaCompletaCatalogo.add(new Rivista(Long.parseLong(datiRivista[0]), datiRivista[1], datiRivista[2], Integer.parseInt(datiRivista[3]), periodo));
+				listaCompletaCatalogo.add(new Rivista(Long.parseLong(datiRivista[0]), datiRivista[1], datiRivista[2],
+						Integer.parseInt(datiRivista[3]), periodo));
 			}
 		}
-		
+
 	}
 
 }
