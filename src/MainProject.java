@@ -362,7 +362,8 @@ public class MainProject {
 
 	public static void ricercaConAnno(String s) {
 		List<Catalogo> listaModificatoTre = new ArrayList<Catalogo>();
-		listaCompletaCatalogo.forEach(e -> {
+		listaCompletaCatalogo.stream()
+		.forEach(e -> {
 			if (e.getAnnoPubblicazione().equals(s)) {
 				listaModificatoTre.add(e);
 			}
@@ -377,7 +378,8 @@ public class MainProject {
 
 	public static void ricercaConAutore(String c) {
 		List<Libro> listaModificatoQuattro = new ArrayList<Libro>();
-		listaCompletaCatalogo.forEach(e -> {
+		listaCompletaCatalogo.stream()
+	    .forEach(e -> {
 			if (e instanceof Libro) {
 				// listaModificatoQuattro.add
 				if (((Libro) (e)).getAutore().equals(c)) {
@@ -394,34 +396,6 @@ public class MainProject {
 		}
 	}
 
-	/*
-	 * public static void scritturaSuFile() throws IOException {
-	 * 
-	 * stampaListaTotale();
-	 * listaCompletaCatalogo.forEach(e -> {
-	 * try {
-	 * if (e instanceof Libro) {
-	 * Libro l = ((Libro) e);
-	 * String stringaLibro = ("#"+"Libro" + l.getCodiceISBN() + "@" + l.getTitolo()
-	 * + "@"
-	 * + l.getAnnoPubblicazione()
-	 * + "@" + l.getNumeroPagine() + "@" + l.getAutore() + "@" + l.getGenere());
-	 * FileUtils.writeStringToFile(file, stringaLibro, "UTF-8", true);
-	 * } else if (e instanceof Rivista) {
-	 * Rivista r = ((Rivista) e);
-	 * String stringaRivista = ("#"+"Rivista" + r.getCodiceISBN() + "&" +
-	 * r.getTitolo() + "&"
-	 * + r.getAnnoPubblicazione() + "&" + r.getNumeroPagine() + "&" +
-	 * r.getPeriodo());
-	 * FileUtils.writeStringToFile(file, stringaRivista, "UTF-8", true);
-	 * }
-	 * } catch (IOException h) {
-	 * h.printStackTrace();
-	 * }
-	 * });
-	 * letturaSuFile();
-	 * }
-	 */
 	public static void letturaSuFile() throws IOException {
 		String scritto = FileUtils.readFileToString(file, "UTF-8");
 
